@@ -1,4 +1,6 @@
-# How to make proto
+# proto
+
+## How to make proto
 
 [reference](https://connectrpc.com/docs/go/getting-started)
 
@@ -8,6 +10,7 @@ mkdir -p service/v1
 vi service/v1/service.proto
 ```
 
+[scalar value types](https://protobuf.dev/programming-guides/proto3/#scalar)
 ```proto
 syntax = "proto3";
 
@@ -29,19 +32,6 @@ service GreetService {
 ```
 
 2. generate code
-```
-buf config init
-vi buf.gen.yaml
-```
-
-```yaml
-version: v2
-plugins:
-	- local: protoc-gen-connect-go
-		out: gen
-		opt: paths=source_relative
-```
-
 ```
 buf lint
 buf generate

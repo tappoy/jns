@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/tappoy/jns/gen/user/v1;userv1";
+
+service UserService {
+	// public
+	rpc PostUser(PostUserRequest) returns (PostUserResponse) {}
+	rpc PutPassword(PutPasswordRequest) returns (PutPasswordResponse) {}
+
+	// private
+	rpc Auth(AuthRequest) returns (AuthResponse) {}
+	rpc PutResetPasswordApplication(PutResetPasswordApplicationRequest) returns (PutResetPasswordApplicationResponse) {}
+	rpc Vacuum(VacuumRequest) returns (VacuumResponse) {}
+	rpc PutEmail(PutEmailRequest) returns (PutEmailResponse) {}
+	rpc GetEmail(GetEmailRequest) returns (GetEmailResponse) {}
+	rpc DeleteEmail(DeleteEmailRequest) returns (DeleteEmailResponse) {}
+}
+
+
+// PostUser
+message PostUserRequest {
+	string login_id = 1;
+	string password = 2;
+}
+message PostUserResponse {}
+
+// PutPassword
+message PutPasswordRequest {
+	string reset_password_id = 1;
+	string new_password = 2;
+}
+message PutPasswordResponse {}
+
+// Auth
+message AuthRequest {
+	string login_id = 1;
+	string password_challenge = 2;
+}
+message AuthResponse {
+	string user_no = 1;
+}
+
+// PutResetPasswordApplication
+message PutResetPasswordApplicationRequest {
+	string email = 1;
+}
+message PutResetPasswordApplicationResponse {
+	string reset_password_application_id = 1;
+}
+
+// Vacuum
+message VacuumRequest {}
+message VacuumResponse {}
+
+// PutEmail
+message PutEmailRequest {
+	string user_no = 1;
+	string email = 2;
+}
+message PutEmailResponse {}
+
+// GetEmail
+message GetEmailRequest {
+	string user_no = 1;
+}
+message GetEmailResponse {
+	string email = 1;
+}
+
+// DeleteEmail
+message DeleteEmailRequest {
+	string user_no = 1;
+}
+message DeleteEmailResponse {}

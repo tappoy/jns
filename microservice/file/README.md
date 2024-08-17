@@ -6,13 +6,13 @@ DIR1[/Dir//]
 
 API1([GetFile
 	req: path
-    res: file])
+	res: file])
 
 API2([GetDir
 	req: dirPath
-    res: dir.tar])
+	res: tar])
 
-pAPI1(post
+pAPI1(postFile
 	req: dirPath, file
 	res: fileId)
 

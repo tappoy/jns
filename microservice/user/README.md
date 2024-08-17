@@ -13,8 +13,8 @@ IDX1[/ Index
     + userNo
     - loginId/]
 
-DB2[( ResetPasswordRequestDB
-    + resetPasswordRequestId
+DB2[( ResetPasswordApplicationDB
+    + resetPasswordApplicationId
     - loginId
     - createdAt)]
 
@@ -39,9 +39,9 @@ pAPI1(auth
     req: loginId, passwordChallenge
     res: userNo)
 
-pAPI2(putResetPasswordRequest
+pAPI2(putResetPasswordApplication
     req: email
-    res: resetPasswordRequestId)
+    res: resetPasswordApplicationId)
 
 pAPI3(vacuum)
 
@@ -99,15 +99,15 @@ pAPI6 --> DB3
 | deleteEmail | . | . | . | o |
 
 ### EmailDB Index
-| name                    | C | R | U | D |
-| ----                    | - | - | - | - |
-| putEmail                | o | . | . | . |
-| putResetPasswordRequest | . | o | . | . |
-| deleteEmail             | . | . | . | o |
+| name                        | C | R | U | D |
+| ----                        | - | - | - | - |
+| putEmail                    | o | . | . | . |
+| putResetPasswordApplication | . | o | . | . |
+| deleteEmail                 | . | . | . | o |
 
-### ResetPasswordRequestDB
-| name                    | C | R | U | D |
-| ----                    | - | - | - | - |
-| putResetPasswordRequest | o | . | o | . |
-| PutPassword             | . | o | . | o |
-| vacuum                  | . | . | . | o |
+### ResetPasswordApplicationDB
+| name                        | C | R | U | D |
+| ----                        | - | - | - | - |
+| putResetPasswordApplication | o | . | o | . |
+| PutPassword                 | . | o | . | o |
+| vacuum                      | . | . | . | o |
