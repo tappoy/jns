@@ -33,14 +33,14 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// FileServicePostFileProcedure is the fully-qualified name of the FileService's PostFile RPC.
-	FileServicePostFileProcedure = "/file.v1.FileService/PostFile"
-	// FileServiceGetFileProcedure is the fully-qualified name of the FileService's GetFile RPC.
-	FileServiceGetFileProcedure = "/file.v1.FileService/GetFile"
 	// FileServiceGetDirProcedure is the fully-qualified name of the FileService's GetDir RPC.
 	FileServiceGetDirProcedure = "/file.v1.FileService/GetDir"
 	// FileServiceGCFileProcedure is the fully-qualified name of the FileService's GCFile RPC.
 	FileServiceGCFileProcedure = "/file.v1.FileService/GCFile"
+	// FileServicePostFileProcedure is the fully-qualified name of the FileService's PostFile RPC.
+	FileServicePostFileProcedure = "/file.v1.FileService/PostFile"
+	// FileServiceGetFileProcedure is the fully-qualified name of the FileService's GetFile RPC.
+	FileServiceGetFileProcedure = "/file.v1.FileService/GetFile"
 	// FileServiceGCDirProcedure is the fully-qualified name of the FileService's GCDir RPC.
 	FileServiceGCDirProcedure = "/file.v1.FileService/GCDir"
 	// FileServiceVacuumProcedure is the fully-qualified name of the FileService's Vacuum RPC.
@@ -50,20 +50,22 @@ const (
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	fileServiceServiceDescriptor        = v1.File_file_v1_file_proto.Services().ByName("FileService")
-	fileServicePostFileMethodDescriptor = fileServiceServiceDescriptor.Methods().ByName("PostFile")
-	fileServiceGetFileMethodDescriptor  = fileServiceServiceDescriptor.Methods().ByName("GetFile")
 	fileServiceGetDirMethodDescriptor   = fileServiceServiceDescriptor.Methods().ByName("GetDir")
 	fileServiceGCFileMethodDescriptor   = fileServiceServiceDescriptor.Methods().ByName("GCFile")
+	fileServicePostFileMethodDescriptor = fileServiceServiceDescriptor.Methods().ByName("PostFile")
+	fileServiceGetFileMethodDescriptor  = fileServiceServiceDescriptor.Methods().ByName("GetFile")
 	fileServiceGCDirMethodDescriptor    = fileServiceServiceDescriptor.Methods().ByName("GCDir")
 	fileServiceVacuumMethodDescriptor   = fileServiceServiceDescriptor.Methods().ByName("Vacuum")
 )
 
 // FileServiceClient is a client for the file.v1.FileService service.
 type FileServiceClient interface {
-	PostFile(context.Context, *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error)
-	GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error)
+	// public
 	GetDir(context.Context, *connect.Request[v1.GetDirRequest]) (*connect.Response[v1.GetDirResponse], error)
 	GCFile(context.Context, *connect.Request[v1.GCFileRequest]) (*connect.Response[v1.GCFileResponse], error)
+	// private
+	PostFile(context.Context, *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error)
+	GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error)
 	GCDir(context.Context, *connect.Request[v1.GCDirRequest]) (*connect.Response[v1.GCDirResponse], error)
 	Vacuum(context.Context, *connect.Request[v1.VacuumRequest]) (*connect.Response[v1.VacuumResponse], error)
 }
@@ -78,18 +80,6 @@ type FileServiceClient interface {
 func NewFileServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) FileServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &fileServiceClient{
-		postFile: connect.NewClient[v1.PostFileRequest, v1.PostFileResponse](
-			httpClient,
-			baseURL+FileServicePostFileProcedure,
-			connect.WithSchema(fileServicePostFileMethodDescriptor),
-			connect.WithClientOptions(opts...),
-		),
-		getFile: connect.NewClient[v1.GetFileRequest, v1.GetFileResponse](
-			httpClient,
-			baseURL+FileServiceGetFileProcedure,
-			connect.WithSchema(fileServiceGetFileMethodDescriptor),
-			connect.WithClientOptions(opts...),
-		),
 		getDir: connect.NewClient[v1.GetDirRequest, v1.GetDirResponse](
 			httpClient,
 			baseURL+FileServiceGetDirProcedure,
@@ -100,6 +90,18 @@ func NewFileServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			httpClient,
 			baseURL+FileServiceGCFileProcedure,
 			connect.WithSchema(fileServiceGCFileMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		postFile: connect.NewClient[v1.PostFileRequest, v1.PostFileResponse](
+			httpClient,
+			baseURL+FileServicePostFileProcedure,
+			connect.WithSchema(fileServicePostFileMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getFile: connect.NewClient[v1.GetFileRequest, v1.GetFileResponse](
+			httpClient,
+			baseURL+FileServiceGetFileProcedure,
+			connect.WithSchema(fileServiceGetFileMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		gCDir: connect.NewClient[v1.GCDirRequest, v1.GCDirResponse](
@@ -119,22 +121,12 @@ func NewFileServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // fileServiceClient implements FileServiceClient.
 type fileServiceClient struct {
-	postFile *connect.Client[v1.PostFileRequest, v1.PostFileResponse]
-	getFile  *connect.Client[v1.GetFileRequest, v1.GetFileResponse]
 	getDir   *connect.Client[v1.GetDirRequest, v1.GetDirResponse]
 	gCFile   *connect.Client[v1.GCFileRequest, v1.GCFileResponse]
+	postFile *connect.Client[v1.PostFileRequest, v1.PostFileResponse]
+	getFile  *connect.Client[v1.GetFileRequest, v1.GetFileResponse]
 	gCDir    *connect.Client[v1.GCDirRequest, v1.GCDirResponse]
 	vacuum   *connect.Client[v1.VacuumRequest, v1.VacuumResponse]
-}
-
-// PostFile calls file.v1.FileService.PostFile.
-func (c *fileServiceClient) PostFile(ctx context.Context, req *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error) {
-	return c.postFile.CallUnary(ctx, req)
-}
-
-// GetFile calls file.v1.FileService.GetFile.
-func (c *fileServiceClient) GetFile(ctx context.Context, req *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error) {
-	return c.getFile.CallUnary(ctx, req)
 }
 
 // GetDir calls file.v1.FileService.GetDir.
@@ -145,6 +137,16 @@ func (c *fileServiceClient) GetDir(ctx context.Context, req *connect.Request[v1.
 // GCFile calls file.v1.FileService.GCFile.
 func (c *fileServiceClient) GCFile(ctx context.Context, req *connect.Request[v1.GCFileRequest]) (*connect.Response[v1.GCFileResponse], error) {
 	return c.gCFile.CallUnary(ctx, req)
+}
+
+// PostFile calls file.v1.FileService.PostFile.
+func (c *fileServiceClient) PostFile(ctx context.Context, req *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error) {
+	return c.postFile.CallUnary(ctx, req)
+}
+
+// GetFile calls file.v1.FileService.GetFile.
+func (c *fileServiceClient) GetFile(ctx context.Context, req *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error) {
+	return c.getFile.CallUnary(ctx, req)
 }
 
 // GCDir calls file.v1.FileService.GCDir.
@@ -159,10 +161,12 @@ func (c *fileServiceClient) Vacuum(ctx context.Context, req *connect.Request[v1.
 
 // FileServiceHandler is an implementation of the file.v1.FileService service.
 type FileServiceHandler interface {
-	PostFile(context.Context, *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error)
-	GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error)
+	// public
 	GetDir(context.Context, *connect.Request[v1.GetDirRequest]) (*connect.Response[v1.GetDirResponse], error)
 	GCFile(context.Context, *connect.Request[v1.GCFileRequest]) (*connect.Response[v1.GCFileResponse], error)
+	// private
+	PostFile(context.Context, *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error)
+	GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error)
 	GCDir(context.Context, *connect.Request[v1.GCDirRequest]) (*connect.Response[v1.GCDirResponse], error)
 	Vacuum(context.Context, *connect.Request[v1.VacuumRequest]) (*connect.Response[v1.VacuumResponse], error)
 }
@@ -173,18 +177,6 @@ type FileServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewFileServiceHandler(svc FileServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	fileServicePostFileHandler := connect.NewUnaryHandler(
-		FileServicePostFileProcedure,
-		svc.PostFile,
-		connect.WithSchema(fileServicePostFileMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
-	fileServiceGetFileHandler := connect.NewUnaryHandler(
-		FileServiceGetFileProcedure,
-		svc.GetFile,
-		connect.WithSchema(fileServiceGetFileMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
 	fileServiceGetDirHandler := connect.NewUnaryHandler(
 		FileServiceGetDirProcedure,
 		svc.GetDir,
@@ -195,6 +187,18 @@ func NewFileServiceHandler(svc FileServiceHandler, opts ...connect.HandlerOption
 		FileServiceGCFileProcedure,
 		svc.GCFile,
 		connect.WithSchema(fileServiceGCFileMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	fileServicePostFileHandler := connect.NewUnaryHandler(
+		FileServicePostFileProcedure,
+		svc.PostFile,
+		connect.WithSchema(fileServicePostFileMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	fileServiceGetFileHandler := connect.NewUnaryHandler(
+		FileServiceGetFileProcedure,
+		svc.GetFile,
+		connect.WithSchema(fileServiceGetFileMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	fileServiceGCDirHandler := connect.NewUnaryHandler(
@@ -211,14 +215,14 @@ func NewFileServiceHandler(svc FileServiceHandler, opts ...connect.HandlerOption
 	)
 	return "/file.v1.FileService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case FileServicePostFileProcedure:
-			fileServicePostFileHandler.ServeHTTP(w, r)
-		case FileServiceGetFileProcedure:
-			fileServiceGetFileHandler.ServeHTTP(w, r)
 		case FileServiceGetDirProcedure:
 			fileServiceGetDirHandler.ServeHTTP(w, r)
 		case FileServiceGCFileProcedure:
 			fileServiceGCFileHandler.ServeHTTP(w, r)
+		case FileServicePostFileProcedure:
+			fileServicePostFileHandler.ServeHTTP(w, r)
+		case FileServiceGetFileProcedure:
+			fileServiceGetFileHandler.ServeHTTP(w, r)
 		case FileServiceGCDirProcedure:
 			fileServiceGCDirHandler.ServeHTTP(w, r)
 		case FileServiceVacuumProcedure:
@@ -232,20 +236,20 @@ func NewFileServiceHandler(svc FileServiceHandler, opts ...connect.HandlerOption
 // UnimplementedFileServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedFileServiceHandler struct{}
 
-func (UnimplementedFileServiceHandler) PostFile(context.Context, *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.PostFile is not implemented"))
-}
-
-func (UnimplementedFileServiceHandler) GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.GetFile is not implemented"))
-}
-
 func (UnimplementedFileServiceHandler) GetDir(context.Context, *connect.Request[v1.GetDirRequest]) (*connect.Response[v1.GetDirResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.GetDir is not implemented"))
 }
 
 func (UnimplementedFileServiceHandler) GCFile(context.Context, *connect.Request[v1.GCFileRequest]) (*connect.Response[v1.GCFileResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.GCFile is not implemented"))
+}
+
+func (UnimplementedFileServiceHandler) PostFile(context.Context, *connect.Request[v1.PostFileRequest]) (*connect.Response[v1.PostFileResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.PostFile is not implemented"))
+}
+
+func (UnimplementedFileServiceHandler) GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.GetFile is not implemented"))
 }
 
 func (UnimplementedFileServiceHandler) GCDir(context.Context, *connect.Request[v1.GCDirRequest]) (*connect.Response[v1.GCDirResponse], error) {

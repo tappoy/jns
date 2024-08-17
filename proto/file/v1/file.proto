@@ -5,10 +5,13 @@ package file.v1;
 option go_package = "github.com/tappoy/jns/gen/file/v1;filev1";
 
 service FileService {
-	rpc PostFile(PostFileRequest) returns (PostFileResponse) {}
-	rpc GetFile(GetFileRequest) returns (GetFileResponse) {}
+	// public
 	rpc GetDir(GetDirRequest) returns (GetDirResponse) {}
 	rpc GCFile(GCFileRequest) returns (GCFileResponse) {}
+
+	// private
+	rpc PostFile(PostFileRequest) returns (PostFileResponse) {}
+	rpc GetFile(GetFileRequest) returns (GetFileResponse) {}
 	rpc GCDir(GCDirRequest) returns (GCDirResponse) {}
 	rpc Vacuum(VacuumRequest) returns (VacuumResponse) {}
 }
