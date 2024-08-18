@@ -2,27 +2,12 @@ syntax = "proto3";
 
 package file.v1;
 
-option go_package = "github.com/tappoy/jns/gen/file/v1;filev1";
+option go_package = "github.com/tappoy/jns/proto/gen/file/v1;filev1";
 
 service FileService {
 	// public
-	rpc GetDir(GetDirRequest) returns (GetDirResponse) {}
-	rpc GCFile(GCFileRequest) returns (GCFileResponse) {}
-
-	// private
-	rpc PostFile(PostFileRequest) returns (PostFileResponse) {}
 	rpc GetFile(GetFileRequest) returns (GetFileResponse) {}
-	rpc GCDir(GCDirRequest) returns (GCDirResponse) {}
-	rpc Vacuum(VacuumRequest) returns (VacuumResponse) {}
-}
-
-// PostFile
-message PostFileRequest {
-	string dir_path = 1;
-	bytes file = 2;
-}
-message PostFileResponse {
-	string file_id = 1;
+	rpc GetDir(GetDirRequest) returns (GetDirResponse) {}
 }
 
 // GetFile
@@ -40,19 +25,3 @@ message GetDirRequest {
 message GetDirResponse {
 	bytes tar = 1;
 }
-
-// GCFile
-message GCFileRequest {
-	repeated string marked_file = 1;
-}
-message GCFileResponse {}
-
-// GCDir
-message GCDirRequest {
-	repeated string marked_dir = 1;
-}
-message GCDirResponse {}
-
-// Vacuum
-message VacuumRequest {}
-message VacuumResponse {}
