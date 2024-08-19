@@ -5,5 +5,5 @@ buf curl \
 	--verbose \
 	--http2-prior-knowledge \
 	--header "Jns-Private-Token: PRIVATE-TEST" \
-	--data '{"dirPath": "Jane", "file": 123}' \
+	--data '{"dirPath": "Jane"}' \
 	http://localhost:8080/private/file.v1.PrivateFileService/PostFile

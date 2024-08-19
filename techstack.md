@@ -4,6 +4,8 @@
 ### Backend
 - [Go](https://go.dev/doc/)
 - [Bbolt](https://github.com/etcd-io/bbolt)
+- [Ansible](https://docs.ansible.com/)
+- [Arch Linux](https://archlinux.org/)
 
 ### Protocol
 - [Connect](https://connectrpc.com/)
@@ -18,8 +20,6 @@
 - [Flutter styled_text](https://pub.dev/packages/styled_text)
 
 ### Backend
-- [Ansible](https://docs.ansible.com/)
-- [Arch Linux](https://archlinux.org/)
 - [Systemd](https://wiki.archlinux.jp/index.php/Systemd)
 
 ### Protocol
