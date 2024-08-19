@@ -3,7 +3,7 @@
   when: service_exec is undefined
   command: "go install github.com/tappoy/jns/cmd/{{ service_name }}@latest"
 
-- name: Link jns-file-server
+- name: Link to exec file
   when: service_exec is defined
   file:
     src: "/root/go/bin/{{ service_exec }}"
