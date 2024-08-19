@@ -24,14 +24,7 @@ sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_c
 systemctl restart sshd
 ```
 
-### 2. Set timezone
-ex) `Asia/Tokyo`
-```sh
-timedatectl set-timezone Asia/Tokyo
-timedatectl set-ntp true
-```
-
-### 3. Fix IP Address
+### 2. Fix IP Address
 Enable & start services.
 ```sh
 systemctl enable systemd-networkd
@@ -71,7 +64,7 @@ systemctl restart systemd-networkd
 ```
 
 
-### 4. Install python
+### 3. Install python
 ```sh
 pacman -S python
 ```

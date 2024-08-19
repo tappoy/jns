@@ -2,3 +2,5 @@
 ansible_port: 22
 ansible_user: root
 ansible_password: root
+
+locale_timezone: "Asia/Tokyo"

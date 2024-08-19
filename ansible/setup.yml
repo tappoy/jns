@@ -3,6 +3,10 @@
   hosts: all
 
   tasks:
+  - name: set timezone
+    community.general.timezone:
+      name: "{{ locale_timezone }}"
+
   - name: install go
     community.general.pacman:
       name: go
