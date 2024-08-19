@@ -8,10 +8,7 @@
       name: go
       state: present
 
-  - name: Run the equivalent of "pacman -Sy" as a separate step
+  - name: Run the equivalent of "pacman -Syu" as a separate step
     community.general.pacman:
       update_cache: true
-
-  - name: Run the equivalent of "pacman -Su" as a separate step
-    community.general.pacman:
       upgrade: true
