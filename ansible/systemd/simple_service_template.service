@@ -1,0 +1,15 @@
+[Unit]
+Description=SERVICE_NAME
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/root/go/bin/SERVICE_NAME
+WorkingDirectory=/srv/SERVICE_NAME
+Environment=PORT=SERVICE_PORT
+EnvironmentFile=/etc/sysconfig/SERVICE_NAME
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

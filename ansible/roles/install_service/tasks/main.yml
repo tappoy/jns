@@ -1,0 +1,35 @@
+---
+- name: Go install service
+  when: service_exec is undefined
+  command: "go install github.com/tappoy/jns/cmd/{{ service_name }}@latest"
+
+- name: Link jns-file-server
+  when: service_exec is defined
+  file:
+    src: "/root/go/bin/{{ service_exec }}"
+    dest: "/root/go/bin/{{ service_name }}"
+    state: link
+
+- name: Copy simple_service_template.service
+  copy:
+    src: ./systemd/simple_service_template.service
+    dest: "/root/{{ service_name }}.service"
+
+- name: Replace SERVICE_NAME
+  replace:
+    path: "/root/{{ service_name }}.service"
+    regexp: SERVICE_NAME
+    replace: "{{ service_name }}"
+
+- name: Replace SERVICE_PORT
+  replace:
+    path: "/root/{{ service_name }}.service"
+    regexp: SERVICE_PORT
+    replace: "{{ service_port }}"
+
+- name: Symlink service to /etc/systemd/system/multi-user.target.wants
+  file:
+    src: "/root/{{ service_name }}.service"
+    dest: "/etc/systemd/system/multi-user.target.wants/{{ service_name }}.service"
+    state: link
+

@@ -4,3 +4,9 @@ ansible_user: root
 ansible_password: root
 
 locale_timezone: "Asia/Tokyo"
+
+#
+# service
+#
+service_name_of_file: "jns-file-server"
+service_port_of_file: 50100

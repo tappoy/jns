@@ -3,16 +3,16 @@
   hosts: all
 
   tasks:
-  - name: set timezone
-    community.general.timezone:
+  - name: Set timezone
+    timezone:
       name: "{{ locale_timezone }}"
 
-  - name: install go
-    community.general.pacman:
+  - name: Install go
+    pacman:
       name: go
       state: present
 
   - name: Run the equivalent of "pacman -Syu" as a separate step
-    community.general.pacman:
+    pacman:
       update_cache: true
       upgrade: true

@@ -1,0 +1,11 @@
+---
+- name: Install file server
+  hosts: file
+  gather_facts: false
+  tasks:
+  - name: Install jns-file-server
+    import_role:
+      name: install_service
+    vars:
+      service_name: "{{ service_name_of_file }}"
+      service_port: "{{ service_port_of_file }}"
