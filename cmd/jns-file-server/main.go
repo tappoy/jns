@@ -6,6 +6,7 @@ import (
 	"errors"
 	"net/http"
 	"github.com/tappoy/env"
+	"github.com/tappoy/version"
 
 	"connectrpc.com/connect"
 
@@ -14,12 +15,16 @@ import (
 	"github.com/tappoy/jns/proto/gen/file/v1/filev1connect"
 )
 
+
 func setHeader(h *http.Header) {
 	h.Set("Jns-File-Server-Version", "v1")
+	h.Set("Jns-File-Server-Revision", revision)
+	h.Set("Jns-File-Server-Name", name)
 }
 
 const ENV_PRIVATE_TOKEN = "PRIVATE_TOKEN"
 const ENV_PUBLIC_TOKEN = "PUBLIC_TOKEN"
+const ENV_NAME = "NAME"
 const ENV_HOST = "HOST"
 const ENV_PORT = "PORT"
 const ENV_LOGDIR = "LOGDIR"
@@ -58,7 +63,16 @@ func NewAuthInterceptor(header, token string) connect.UnaryInterceptorFunc {
 	return connect.UnaryInterceptorFunc(interceptor)
 }
 
+var revision string
+var name string
+
 func main() {
+	// Revision
+	revision = version.Version()
+
+	// Name
+	name = env.Getenv(ENV_NAME, "(dev)")
+
 	// Public Service
 	pub := http.NewServeMux()
 	pubs := &FileServer{}
@@ -93,7 +107,7 @@ func main() {
 	host := env.Getenv(ENV_HOST, "")
 	port := env.Getenv(ENV_PORT, "8080")
 	addr := fmt.Sprintf("%s:%s", host, port)
-	env.EInfo("start file server. listen: %v", addr)
+	env.EInfo("%v, %v: start jns-file-server. listen: [%v]", name, revision, addr)
 
 	// Check Token
 	if env.Getenv(ENV_PRIVATE_TOKEN, "") == "" || env.Getenv(ENV_PUBLIC_TOKEN, "") == "" {

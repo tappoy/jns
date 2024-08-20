@@ -1,12 +1,11 @@
 ---
-- name: Install the service by go install
-  when: service_exec is undefined
-  command: "go install github.com/tappoy/jns/cmd/{{ service_name }}@latest"
+- name: Install the service command by go install
+  command: "go install github.com/tappoy/jns/cmd/{{ service_cmd }}@latest"
 
 - name: Make alias
-  when: service_exec is defined
+  when: service_cmd != service_name
   file:
-    src: "/root/go/bin/{{ service_exec }}"
+    src: "/root/go/bin/{{ service_cmd }}"
     dest: "/root/go/bin/{{ service_name }}"
     state: link
 

@@ -5,6 +5,7 @@ go 1.23.0
 require (
 	connectrpc.com/connect v1.16.2
 	github.com/tappoy/env v1.7.0
+	github.com/tappoy/version v1.1.0
 	golang.org/x/net v0.28.0
 	google.golang.org/protobuf v1.34.2
 )
