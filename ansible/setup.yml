@@ -7,12 +7,36 @@
     timezone:
       name: "{{ locale_timezone }}"
 
+  - name: Install chrony
+    pacman:
+      name: chrony
+      state: present
+
+  - name: Disable defualt ntpd
+    systemd_service:
+        name: systemd-timesyncd
+        enabled: false
+
+  - name: Enable chronyd and ensure it is not masked
+    systemd_service:
+        name: chronyd
+        enabled: true
+        masked: no
+
+  - name: Make sure chronyd is running
+    systemd_service:
+        name: chronyd
+        state: started
+
   - name: Install go
     pacman:
       name: go
       state: present
 
-  - name: Run the equivalent of "pacman -Syu" as a separate step
+  - name: Run the equivalent of "pacman -Sy"
     pacman:
       update_cache: true
+
+  - name: Run the equivalent of "pacman -Su"
+    pacman:
       upgrade: true

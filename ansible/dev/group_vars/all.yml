@@ -8,5 +8,6 @@ locale_timezone: "Asia/Tokyo"
 #
 # service
 #
-service_name_of_file: "jns-file-server"
-service_port_of_file: 50100
+service_name_of_file: "icon-server"
+service_port_of_file: 50101
+service_exec_of_file: "jns-file-server"

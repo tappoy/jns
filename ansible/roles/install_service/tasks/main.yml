@@ -1,9 +1,9 @@
 ---
-- name: Go install service
+- name: Install the service by go install
   when: service_exec is undefined
   command: "go install github.com/tappoy/jns/cmd/{{ service_name }}@latest"
 
-- name: Link to exec file
+- name: Make alias
   when: service_exec is defined
   file:
     src: "/root/go/bin/{{ service_exec }}"
@@ -27,9 +27,31 @@
     regexp: SERVICE_PORT
     replace: "{{ service_port }}"
 
-- name: Symlink service to /etc/systemd/system/multi-user.target.wants
+- name: Symlink service to /etc/systemd/system
   file:
     src: "/root/{{ service_name }}.service"
-    dest: "/etc/systemd/system/multi-user.target.wants/{{ service_name }}.service"
+    dest: "/etc/systemd/system/{{ service_name }}.service"
     state: link
 
+- name: "Create /srv/{{ service_name }} if it does not exist"
+  file:
+    path: "/srv/{{ service_name }}"
+    state: directory
+    mode: '0755'
+
+- name: "Create /log/{{ service_name }} if it does not exist"
+  file:
+    path: "/log/{{ service_name }}"
+    state: directory
+    mode: '0755'
+
+- name: Enable service and ensure it is not masked
+  systemd_service:
+    name: "{{ service_name }}"
+    enabled: true
+    masked: no
+
+- name: Make sure a service unit is running
+  systemd_service:
+    state: started
+    name: "{{ service_name }}"

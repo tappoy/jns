@@ -7,7 +7,8 @@ Type=simple
 ExecStart=/root/go/bin/SERVICE_NAME
 WorkingDirectory=/srv/SERVICE_NAME
 Environment=PORT=SERVICE_PORT
-EnvironmentFile=/etc/sysconfig/SERVICE_NAME
+Environment=LOGDIR=/log/SERVICE_NAME
+#EnvironmentFile=/etc/sysconfig/SERVICE_NAME
 KillMode=process
 Restart=always
 
