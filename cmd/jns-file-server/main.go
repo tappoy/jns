@@ -18,10 +18,14 @@ func setHeader(h *http.Header) {
 	h.Set("Jns-File-Server-Version", "v1")
 }
 
-const privateTokenHeader = "Jns-Private-Token"
-const privateTokenEnv = "JNS_PRIVATE_TOKEN"
-const publicTokenHeader = "Jns-Public-Token"
-const publicTokenEnv = "JNS_PUBLIC_TOKEN"
+const ENV_PRIVATE_TOKEN = "PRIVATE_TOKEN"
+const ENV_PUBLIC_TOKEN = "PUBLIC_TOKEN"
+const ENV_HOST = "HOST"
+const ENV_PORT = "PORT"
+const ENV_LOGDIR = "LOGDIR"
+
+const HTTP_HEADER_PRIVATE_TOKEN = "Jns-Private-Token"
+const HTTP_HEADER_PUBLIC_TOKEN = "Jns-Public-Token"
 
 func NewLogInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
@@ -68,7 +72,7 @@ func main() {
 	pris := &PrivateFileServer{}
 	prii := connect.WithInterceptors(
 		NewLogInterceptor(),
-		NewAuthInterceptor(privateTokenHeader, env.Getenv(privateTokenEnv, "PRIVATE-TEST")),
+		NewAuthInterceptor(HTTP_HEADER_PRIVATE_TOKEN, env.Getenv(ENV_PRIVATE_TOKEN, "PRIVATE-TEST")),
 		)
 	pri.Handle(filev1connect.NewPrivateFileServiceHandler(pris, prii))
 
@@ -78,7 +82,7 @@ func main() {
 	mux.Handle("/private/", http.StripPrefix("/private", pri))
 
 	// Logger
-	logDir := env.Getenv("JNS_MICROSERVICE_FILE_LOGDIR", "/tmp/log/jns/file")
+	logDir := env.Getenv(ENV_LOGDIR, "/tmp/log/jns/file")
 	err := env.SetLogger(logDir)
 	if err != nil {
 		panic(fmt.Sprintf("log dir error: %v:%v", err, logDir))
@@ -86,13 +90,13 @@ func main() {
 	env.EInfo("logDir: %v", logDir)
 
 	// Addr
-	host := env.Getenv("JNS_MICROSERVICE_FILE_HOST", "localhost")
-	port := env.Getenv("JNS_MICROSERVICE_FILE_PORT", "8080")
+	host := env.Getenv(ENV_HOST, "")
+	port := env.Getenv(ENV_PORT, "8080")
 	addr := fmt.Sprintf("%s:%s", host, port)
 	env.EInfo("start file server. listen: %v", addr)
 
 	// Check Token
-	if env.Getenv(privateTokenEnv, "") == "" || env.Getenv(publicTokenEnv, "") == "" {
+	if env.Getenv(ENV_PRIVATE_TOKEN, "") == "" || env.Getenv(ENV_PUBLIC_TOKEN, "") == "" {
 		env.ENotice("CAUTION! Running in test mode.")
 	}
 
