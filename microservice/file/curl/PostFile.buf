@@ -1,9 +1,13 @@
 #!/bin/bash
 
+#HOST=localhost:8080
+HOST=192.168.1.100:50100
+TOKEN=PRIVATE-STG
+
 buf curl \
 	--schema ../../../proto \
 	--verbose \
 	--http2-prior-knowledge \
-	--header "Jns-Private-Token: PRIVATE-TEST" \
+	--header "Jns-Private-Token: $TOKEN" \
 	--data '{"dirPath": "Jane"}' \
-	http://localhost:8080/private/file.v1.PrivateFileService/PostFile
+	http://$HOST/private/file.v1.PrivateFileService/PostFile
