@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/tappoy/jns/proto/gen/file/v1"
+	v1 "github.com/tappoy/jns/proto/_buf/go/file/v1"
 	http "net/http"
 	strings "strings"
 )
