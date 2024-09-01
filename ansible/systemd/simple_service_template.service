@@ -1,16 +1,19 @@
 [Unit]
-Description=SERVICE_NAME
+Description={{ service_name }}
 After=syslog.target network.target
 
 [Service]
 Type=simple
-ExecStart=/root/go/bin/SERVICE_NAME
-WorkingDirectory=/srv/SERVICE_NAME
-Environment=PORT=SERVICE_PORT
-Environment=LOGDIR=/log/SERVICE_NAME
-#EnvironmentFile=/etc/sysconfig/SERVICE_NAME
 KillMode=process
 Restart=always
+ExecStart=/root/go/bin/{{ service_name }}
+WorkingDirectory=/srv/jns/{{ service_name }}
+Environment=NAME={{ service_name }}
+Environment=LOGDIR=/var/log/jns/{{ service_name }}
+Environment=PORT={{ service_port }}
+Environment=PUBLIC_TOKEN={{ service_public_token }}
+Environment=PRIVATE_TOKEN={{ service_private_token }}
+EnvironmentFile=/root/service.env
 
 [Install]
 WantedBy=multi-user.target

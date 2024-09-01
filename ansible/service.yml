@@ -8,5 +8,5 @@
       name: install_service
     vars:
       service_name: "{{ service_name_of_file }}"
-      service_port: "{{ service_port_of_file }}"
       service_cmd: "{{ service_cmd_of_file }}"
+      service_port: "{{ service_port_of_file }}"

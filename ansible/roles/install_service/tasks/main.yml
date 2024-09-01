@@ -9,22 +9,15 @@
     dest: "/root/go/bin/{{ service_name }}"
     state: link
 
-- name: Copy simple_service_template.service
-  copy:
+- name: Put service.env
+  template:
+    src: ./systemd/service.env
+    dest: "/root/service.env"
+
+- name: Put service
+  template:
     src: ./systemd/simple_service_template.service
     dest: "/root/{{ service_name }}.service"
-
-- name: Replace SERVICE_NAME
-  replace:
-    path: "/root/{{ service_name }}.service"
-    regexp: SERVICE_NAME
-    replace: "{{ service_name }}"
-
-- name: Replace SERVICE_PORT
-  replace:
-    path: "/root/{{ service_name }}.service"
-    regexp: SERVICE_PORT
-    replace: "{{ service_port }}"
 
 - name: Symlink service to /etc/systemd/system
   file:
@@ -32,15 +25,15 @@
     dest: "/etc/systemd/system/{{ service_name }}.service"
     state: link
 
-- name: "Create /srv/{{ service_name }} if it does not exist"
+- name: "Create /srv/jns/{{ service_name }} if it does not exist"
   file:
-    path: "/srv/{{ service_name }}"
+    path: "/srv/jns/{{ service_name }}"
     state: directory
     mode: '0755'
 
-- name: "Create /log/{{ service_name }} if it does not exist"
+- name: "Create /var/log/jns/{{ service_name }} if it does not exist"
   file:
-    path: "/log/{{ service_name }}"
+    path: "/var/log/jns/{{ service_name }}"
     state: directory
     mode: '0755'
 
@@ -50,7 +43,8 @@
     enabled: true
     masked: no
 
-- name: Make sure a service unit is running
+- name: Restart the service
   systemd_service:
-    state: started
+    daemon_reload: true
+    state: restarted
     name: "{{ service_name }}"
