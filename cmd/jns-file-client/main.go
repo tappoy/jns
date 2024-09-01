@@ -5,8 +5,8 @@ import (
     "log"
     "net/http"
 
-    filev1 "github.com/tappoy/jns/proto/gen/file/v1"
-    "github.com/tappoy/jns/proto/gen/file/v1/filev1connect"
+    filev1 "github.com/tappoy/jns/proto/_buf/go/file/v1"
+    "github.com/tappoy/jns/proto/_buf/go/file/v1/filev1connect"
 
     "connectrpc.com/connect"
 )
@@ -16,10 +16,9 @@ func main() {
         http.DefaultClient,
         "http://localhost:8080/private",
     )
-    res, err := client.PostFile(
-        context.Background(),
-        connect.NewRequest(&filev1.PostFileRequest{DirPath: "Jane"}),
-    )
+    req := connect.NewRequest(&filev1.PostFileRequest{DirPath: "Jane"})
+		req.Header().Set("Jns-Token", "PRIVATE-TEST")
+    res, err := client.PostFile(context.Background(), req)
     if err != nil {
         log.Println(err)
         return

@@ -6,7 +6,7 @@ import (
 	"github.com/tappoy/env"
 
 	"connectrpc.com/connect"
-	filev1 "github.com/tappoy/jns/proto/gen/file/v1"
+	filev1 "github.com/tappoy/jns/proto/_buf/go/file/v1"
 )
 
 type PrivateFileServer struct{}

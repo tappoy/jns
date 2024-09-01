@@ -12,7 +12,7 @@ import (
 
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-	"github.com/tappoy/jns/proto/gen/file/v1/filev1connect"
+	"github.com/tappoy/jns/proto/_buf/go/file/v1/filev1connect"
 )
 
 
@@ -29,8 +29,7 @@ const ENV_HOST = "HOST"
 const ENV_PORT = "PORT"
 const ENV_LOGDIR = "LOGDIR"
 
-const HTTP_HEADER_PRIVATE_TOKEN = "Jns-Private-Token"
-const HTTP_HEADER_PUBLIC_TOKEN = "Jns-Public-Token"
+const HTTP_HEADER_JNS_TOKEN = "Jns-Token"
 
 func NewLogInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
@@ -78,6 +77,7 @@ func main() {
 	pubs := &FileServer{}
 	pubi := connect.WithInterceptors(
 		NewLogInterceptor(),
+		NewAuthInterceptor(HTTP_HEADER_JNS_TOKEN, env.Getenv(ENV_PUBLIC_TOKEN, "PUBLIC-TEST")),
 		)
 	pub.Handle(filev1connect.NewFileServiceHandler(pubs, pubi))
 
@@ -86,7 +86,7 @@ func main() {
 	pris := &PrivateFileServer{}
 	prii := connect.WithInterceptors(
 		NewLogInterceptor(),
-		NewAuthInterceptor(HTTP_HEADER_PRIVATE_TOKEN, env.Getenv(ENV_PRIVATE_TOKEN, "PRIVATE-TEST")),
+		NewAuthInterceptor(HTTP_HEADER_JNS_TOKEN, env.Getenv(ENV_PRIVATE_TOKEN, "PRIVATE-TEST")),
 		)
 	pri.Handle(filev1connect.NewPrivateFileServiceHandler(pris, prii))
 
