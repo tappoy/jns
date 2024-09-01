@@ -32,7 +32,7 @@ func (s *PrivateFileServer) GCFile(
 	req *connect.Request[filev1.GCFileRequest],
 ) (*connect.Response[filev1.GCFileResponse], error) {
 
-	res := connect.NewResponse(&filev1.GCFileResponse{ })
+	res := connect.NewResponse(&filev1.GCFileResponse{})
 
 	h := res.Header()
 	setHeader(&h)
@@ -44,7 +44,7 @@ func (s *PrivateFileServer) GCDir(
 	req *connect.Request[filev1.GCDirRequest],
 ) (*connect.Response[filev1.GCDirResponse], error) {
 
-	res := connect.NewResponse(&filev1.GCDirResponse{ })
+	res := connect.NewResponse(&filev1.GCDirResponse{})
 
 	h := res.Header()
 	setHeader(&h)
@@ -56,7 +56,7 @@ func (s *PrivateFileServer) Vacuum(
 	req *connect.Request[filev1.VacuumRequest],
 ) (*connect.Response[filev1.VacuumResponse], error) {
 
-	res := connect.NewResponse(&filev1.VacuumResponse{ })
+	res := connect.NewResponse(&filev1.VacuumResponse{})
 
 	h := res.Header()
 	setHeader(&h)

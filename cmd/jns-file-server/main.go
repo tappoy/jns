@@ -1,20 +1,19 @@
 package main
 
 import (
-	"fmt"
 	"context"
 	"errors"
-	"net/http"
+	"fmt"
 	"github.com/tappoy/env"
 	"github.com/tappoy/version"
+	"net/http"
 
 	"connectrpc.com/connect"
 
+	"github.com/tappoy/jns/proto/_buf/go/file/v1/filev1connect"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-	"github.com/tappoy/jns/proto/_buf/go/file/v1/filev1connect"
 )
-
 
 func setHeader(h *http.Header) {
 	h.Set("Jns-File-Server-Version", "v1")
@@ -54,7 +53,7 @@ func NewAuthInterceptor(header, token string) connect.UnaryInterceptorFunc {
 				return nil, connect.NewError(
 					connect.CodeUnauthenticated,
 					errors.New("bad token"),
-					)
+				)
 			}
 			return next(ctx, req)
 		})
@@ -78,7 +77,7 @@ func main() {
 	pubi := connect.WithInterceptors(
 		NewLogInterceptor(),
 		NewAuthInterceptor(HTTP_HEADER_JNS_TOKEN, env.Getenv(ENV_PUBLIC_TOKEN, "PUBLIC-TEST")),
-		)
+	)
 	pub.Handle(filev1connect.NewFileServiceHandler(pubs, pubi))
 
 	// Private Service
@@ -87,7 +86,7 @@ func main() {
 	prii := connect.WithInterceptors(
 		NewLogInterceptor(),
 		NewAuthInterceptor(HTTP_HEADER_JNS_TOKEN, env.Getenv(ENV_PRIVATE_TOKEN, "PRIVATE-TEST")),
-		)
+	)
 	pri.Handle(filev1connect.NewPrivateFileServiceHandler(pris, prii))
 
 	// URL
