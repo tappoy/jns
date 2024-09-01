@@ -30,7 +30,7 @@ func (s *FileServer) GetDir(
 ) (*connect.Response[filev1.GetDirResponse], error) {
 	log.Println("Request headers: ", req.Header())
 	res := connect.NewResponse(&filev1.GetDirResponse{
-		Tar: []byte(fmt.Sprintf("Path, %s!", req.Msg.DirPath)),
+		Tar: []byte(fmt.Sprintf("DirPath, %s!", req.Msg.DirPath)),
 	})
 	res.Header().Set("JNSDirServer-Version", "v1")
 	return res, nil
