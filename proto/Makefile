@@ -3,4 +3,4 @@ lint:
 
 .PHONY: gen
 gen:
-	buf generate
+	buf generate -o _buf
