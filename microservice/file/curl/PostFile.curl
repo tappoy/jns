@@ -1,6 +1,11 @@
 #!/bin/bash
 
+#HOST=localhost:8080
+HOST=192.168.1.100:60100
+TOKEN=PUBLIC-STG
+
 curl \
     --header "Content-Type: application/json" \
-    --data '{"name": "Jane"}' \
-    http://localhost:8080/private/file.v1.FileService/PostFile
+    --header "Jns-Token: $TOKEN" \
+    --data '{"dirPath": "Jane"}' \
+    http://$HOST/file.v1.FileService/GetFile

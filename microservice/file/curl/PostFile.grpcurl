@@ -1,6 +1,0 @@
-#!/bin/bash
-
-grpcurl \
-    -protoset <(buf build ../../../proto -o -) -plaintext \
-    -d '{"dirPath": "Jane"}' \
-    localhost:8080 file.v1.FileService/PostFile

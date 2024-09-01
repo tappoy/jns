@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#HOST=localhost:8080
+HOST=192.168.1.100:60100
+TOKEN=PUBLIC-STG
+
+grpcurl \
+    -protoset <(buf build ../../../proto -o -) -plaintext \
+    -H "Jns-Token: $TOKEN" \
+    -d '{"path": "Jane"}' \
+    $HOST file.v1.FileService/GetFile
