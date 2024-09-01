@@ -33,6 +33,6 @@ service GreetService {
 
 2. generate code
 ```
-buf lint
-buf generate
+make lint
+make gen
 ```
