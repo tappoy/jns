@@ -1,32 +1,26 @@
-import 'package:grpc/grpc.dart';
-import 'gen/file.pbgrpc.dart';
+import 'err.dart';
+import 'host_info.dart';
+import 'file_client.dart';
 
-class FileClient {
-  late FileServiceClient stub;
-  late ClientChannel channel;
+/// Core API.
+class CoreApi {}
 
-  FileClient(String host, int port, String token, ChannelCredentials cred) {
-    final opt = ChannelOptions(credentials: cred);
-    channel = ClientChannel(host, port: port, options: opt);
-    final meta = <String, String>{};
-    meta['Jns-Token'] = token;
-    stub = FileServiceClient(channel,
-        options: CallOptions(metadata: meta, timeout: Duration(seconds: 30)));
-  }
-
-  Future<void> close() async {
-    await channel.shutdown();
-  }
-
-  Future<List<int>> getFile(String path) async {
+/// Channel API
+class ChannelApi {
+  /// gRPC call: getFile.
+  Future<(List<int>?, Err)> getFile(String msName, String path) async {
+    final h = HostInfo('xx', '127.0.0.1', 8080);
+    final client = FileClient(h);
     try {
-      final req = GetFileRequest();
-      req.path = path;
-      GetFileResponse res = await stub.getFile(req);
-      return res.file;
-    } catch (e) {
-      print('Caught error: $e');
-      rethrow;
+      final (file, err) = await client.getFile('example');
+      if (err != Err.ok) {
+        print('err file: $err: $file');
+        return (null, err);
+      } else {
+        return (file, err);
+      }
+    } finally {
+      await client.close();
     }
   }
 }
