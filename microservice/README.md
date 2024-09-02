@@ -5,7 +5,6 @@
 - Lv2. [Session](./session/README.md)
 - Lv3. [Email](./email/README.md)
 - Lv4. Channel([File](./file/README.md), [Profile](./profile/README.md), [Tweet](./tweet/README.md), [Mute](./mute/README.md), [Like](./like/README.md), [Note](./note/README.md))
-- Lv9. Proxy
 
 ## Dependencies
 ### Lv0 & Lv9
@@ -30,10 +29,10 @@ Email --> Session
 
 Session --> User
 ChannelAlias[Channel] --> Session
-Note --> Tweet
 
 subgraph Channel
     Admin[Admin/AuthZ]
+    Note --> Tweet
     subgraph NoteGroup[Note]
         Note --> Note-Image[File/Note]
     end
@@ -56,11 +55,4 @@ ChannelAlias --> Email
 
 ChannelIndex --> Session
 
-```
-
-## Files
-```
-https://channel.jns.com/:channel-id/profile/:image-id
-https://channel.jns.com/:channel-id/tweet/:image-id
-https://channel.jns.com/:channel-id/post/:image-id
 ```
