@@ -3,6 +3,8 @@ import 'package:grpc/grpc.dart';
 import 'gen/file.pbgrpc.dart';
 import 'err.dart';
 import 'host_info.dart';
+import 'grpc_error_handler.dart';
+import 'env.dart';
 
 /// gRPC client for file service.
 class FileClient {
@@ -17,7 +19,7 @@ class FileClient {
     final opt = ChannelOptions(credentials: h.getCredential());
     channel = ClientChannel(h.host, port: h.port, options: opt);
     final meta = <String, String>{};
-    meta['Jns-Token'] = h.getJnsToken();
+    meta['Jns-Token'] = Env.jnsToken;
     stub = FileServiceClient(channel,
         options: CallOptions(metadata: meta, timeout: Duration(seconds: 3)));
   }

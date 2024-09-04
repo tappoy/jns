@@ -1,6 +1,8 @@
-import 'package:grpc/grpc.dart';
-
 /// Error codes.
+///
+/// Basically, do not throw exceptions from methods.
+/// Return an error code.
+/// However, it is allowed to throw an exception from the constructor.
 enum Err {
   /// OK.
   ok,
@@ -19,21 +21,10 @@ enum Err {
 
   /// GrpcError. codeName: UNAVAILABLE.
   grpcUnavailable,
-}
 
-/// https://pub.dev/documentation/grpc/latest/grpc/GrpcError-class.html
-class GrpcErrorHandler {
-  /// Convert GrpcError to Err.
-  static Err toErr(GrpcError e) {
-    switch (e.codeName) {
-      case 'UNAUTHENTICATED':
-        return Err.grpcUnauthenticated;
-      case 'DEADLINE_EXCEEDED':
-        return Err.grpcDeadlineExeeded;
-      case 'UNAVAILABLE':
-        return Err.grpcUnavailable;
-      default:
-        return Err.grpc;
-    }
-  }
+  /// Host not found.
+  hostNotFound,
+
+  /// Env var not found.
+  envVarNotFound,
 }
