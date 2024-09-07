@@ -6,15 +6,15 @@ DB1[(MuteDB
 	- userNo
 	- muteList)]
 
-API1(PostMute
-	req: sessionId, muteUserNo)
+API1([PostMute
+	req: sessionId, muteUserNo])
 
-API2(GetMute
+API2([GetMute
 	req: sessionId
-	res: muteList)
+	res: muteList])
 
-API3(DeleteMute
-	req: sessionId, muteUserNo)
+API3([DeleteMute
+	req: sessionId, muteUserNo])
 
 xAPI1{{Session.GetSession
 	req: sessionId
