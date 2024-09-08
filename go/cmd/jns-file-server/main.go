@@ -10,7 +10,7 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/tappoy/jns/proto/_buf/go/file/v1/filev1connect"
+	"github.com/tappoy/jns/go/_buf/file/v1/filev1connect"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )

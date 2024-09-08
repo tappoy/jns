@@ -7,7 +7,7 @@ import (
 
 	"connectrpc.com/connect"
 
-	filev1 "github.com/tappoy/jns/proto/_buf/go/file/v1"
+	filev1 "github.com/tappoy/jns/go/_buf/file/v1"
 )
 
 type FileServer struct{}

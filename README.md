@@ -1,6 +1,6 @@
 # JNS: Jinro Network System
 
 ## Index
-- [techstack.md](./techstack.md)
-- [microservice/](./microservice/README.md)
+- [docs/techstack.md](./docs/techstack.md)
+- [docs/microservice/](./docs/microservice/README.md)
 - [proto/](./proto/README.md)
