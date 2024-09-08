@@ -1,6 +1,6 @@
 ---
 - name: Install the service command by go install
-  command: "go install github.com/tappoy/jns/cmd/{{ service_cmd }}@latest"
+  command: "go install github.com/tappoy/jns/go/cmd/{{ service_cmd }}@latest"
 
 - name: Make alias
   when: service_cmd != service_name
