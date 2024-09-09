@@ -2,6 +2,8 @@
 - name: Install file server
   hosts: file
   gather_facts: false
+  environment:
+    GOPROXY: direct
   tasks:
   - name: Install jns-file-server
     import_role:
