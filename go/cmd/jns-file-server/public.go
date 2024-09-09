@@ -19,7 +19,7 @@ func (s *FileServer) Version(
 ) (*connect.Response[filev1.VersionResponse], error) {
 	log.Println("Request headers: ", req.Header())
 	res := connect.NewResponse(&filev1.VersionResponse{
-		Version: version.Version(),
+		Version: "Version: "+version.Version(),
 	})
 	res.Header().Set("JNSFileServer-Version", "v1")
 	return res, nil
