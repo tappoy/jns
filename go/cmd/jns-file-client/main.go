@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/tappoy/env"
 	filev1 "github.com/tappoy/jns/go/_buf/file/v1"
 	"github.com/tappoy/jns/go/_buf/file/v1/filev1connect"
 
@@ -18,7 +19,7 @@ func version(host string) {
 		host,
 	)
 	req := connect.NewRequest(&filev1.VersionRequest{})
-	req.Header().Set("Jns-Token", "PUBLIC-TEST")
+	req.Header().Set("Jns-Token", env.Getenv("PUBLIC_TOKEN", "PUBLIC-TEST"))
 	res, err := client.Version(context.Background(), req)
 	if err != nil {
 		log.Println(err)
@@ -33,7 +34,7 @@ func postFile(host string) {
 		host+"/private",
 	)
 	req := connect.NewRequest(&filev1.PostFileRequest{DirPath: "Jane"})
-	req.Header().Set("Jns-Token", "PRIVATE-TEST")
+	req.Header().Set("Jns-Token", env.Getenv("PRIVATE_TOKEN", "PRIVATE-TEST"))
 	res, err := client.PostFile(context.Background(), req)
 	if err != nil {
 		log.Println(err)
