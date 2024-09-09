@@ -7,5 +7,5 @@ TOKEN=PUBLIC-STG
 curl \
     --header "Content-Type: application/json" \
     --header "Jns-Token: $TOKEN" \
-    --data '{"dirPath": "Jane"}' \
+    --data '{"path": "Jane"}' \
     http://$HOST/file.v1.FileService/GetFile

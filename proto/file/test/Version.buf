@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#HOST=localhost:8080
+HOST=192.168.1.100:60100
+TOKEN=PUBLIC-STG
+
+buf curl \
+	--schema ../../../../proto \
+	--verbose \
+	--http2-prior-knowledge \
+	--header "Jns-Token: $TOKEN" \
+	http://$HOST/file.v1.FileService/Version
