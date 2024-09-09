@@ -13,6 +13,27 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use versionRequestDescriptor instead')
+const VersionRequest$json = {
+  '1': 'VersionRequest',
+};
+
+/// Descriptor for `VersionRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List versionRequestDescriptor = $convert.base64Decode(
+    'Cg5WZXJzaW9uUmVxdWVzdA==');
+
+@$core.Deprecated('Use versionResponseDescriptor instead')
+const VersionResponse$json = {
+  '1': 'VersionResponse',
+  '2': [
+    {'1': 'version', '3': 1, '4': 1, '5': 9, '10': 'version'},
+  ],
+};
+
+/// Descriptor for `VersionResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List versionResponseDescriptor = $convert.base64Decode(
+    'Cg9WZXJzaW9uUmVzcG9uc2USGAoHdmVyc2lvbhgBIAEoCVIHdmVyc2lvbg==');
+
 @$core.Deprecated('Use postUserRequestDescriptor instead')
 const PostUserRequest$json = {
   '1': 'PostUserRequest',
@@ -33,8 +54,8 @@ const PostUserResponse$json = {
 };
 
 /// Descriptor for `PostUserResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List postUserResponseDescriptor =
-    $convert.base64Decode('ChBQb3N0VXNlclJlc3BvbnNl');
+final $typed_data.Uint8List postUserResponseDescriptor = $convert.base64Decode(
+    'ChBQb3N0VXNlclJlc3BvbnNl');
 
 @$core.Deprecated('Use putPasswordRequestDescriptor instead')
 const PutPasswordRequest$json = {
@@ -56,21 +77,15 @@ const PutPasswordResponse$json = {
 };
 
 /// Descriptor for `PutPasswordResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List putPasswordResponseDescriptor =
-    $convert.base64Decode('ChNQdXRQYXNzd29yZFJlc3BvbnNl');
+final $typed_data.Uint8List putPasswordResponseDescriptor = $convert.base64Decode(
+    'ChNQdXRQYXNzd29yZFJlc3BvbnNl');
 
 @$core.Deprecated('Use authRequestDescriptor instead')
 const AuthRequest$json = {
   '1': 'AuthRequest',
   '2': [
     {'1': 'login_id', '3': 1, '4': 1, '5': 9, '10': 'loginId'},
-    {
-      '1': 'password_challenge',
-      '3': 2,
-      '4': 1,
-      '5': 9,
-      '10': 'passwordChallenge'
-    },
+    {'1': 'password_challenge', '3': 2, '4': 1, '5': 9, '10': 'passwordChallenge'},
   ],
 };
 
@@ -88,8 +103,8 @@ const AuthResponse$json = {
 };
 
 /// Descriptor for `AuthResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authResponseDescriptor = $convert
-    .base64Decode('CgxBdXRoUmVzcG9uc2USFwoHdXNlcl9ubxgBIAEoCVIGdXNlck5v');
+final $typed_data.Uint8List authResponseDescriptor = $convert.base64Decode(
+    'CgxBdXRoUmVzcG9uc2USFwoHdXNlcl9ubxgBIAEoCVIGdXNlck5v');
 
 @$core.Deprecated('Use putResetPasswordApplicationRequestDescriptor instead')
 const PutResetPasswordApplicationRequest$json = {
@@ -100,30 +115,22 @@ const PutResetPasswordApplicationRequest$json = {
 };
 
 /// Descriptor for `PutResetPasswordApplicationRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List putResetPasswordApplicationRequestDescriptor =
-    $convert.base64Decode(
-        'CiJQdXRSZXNldFBhc3N3b3JkQXBwbGljYXRpb25SZXF1ZXN0EhQKBWVtYWlsGAEgASgJUgVlbW'
-        'FpbA==');
+final $typed_data.Uint8List putResetPasswordApplicationRequestDescriptor = $convert.base64Decode(
+    'CiJQdXRSZXNldFBhc3N3b3JkQXBwbGljYXRpb25SZXF1ZXN0EhQKBWVtYWlsGAEgASgJUgVlbW'
+    'FpbA==');
 
 @$core.Deprecated('Use putResetPasswordApplicationResponseDescriptor instead')
 const PutResetPasswordApplicationResponse$json = {
   '1': 'PutResetPasswordApplicationResponse',
   '2': [
-    {
-      '1': 'reset_password_application_id',
-      '3': 1,
-      '4': 1,
-      '5': 9,
-      '10': 'resetPasswordApplicationId'
-    },
+    {'1': 'reset_password_application_id', '3': 1, '4': 1, '5': 9, '10': 'resetPasswordApplicationId'},
   ],
 };
 
 /// Descriptor for `PutResetPasswordApplicationResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List putResetPasswordApplicationResponseDescriptor =
-    $convert.base64Decode(
-        'CiNQdXRSZXNldFBhc3N3b3JkQXBwbGljYXRpb25SZXNwb25zZRJBCh1yZXNldF9wYXNzd29yZF'
-        '9hcHBsaWNhdGlvbl9pZBgBIAEoCVIacmVzZXRQYXNzd29yZEFwcGxpY2F0aW9uSWQ=');
+final $typed_data.Uint8List putResetPasswordApplicationResponseDescriptor = $convert.base64Decode(
+    'CiNQdXRSZXNldFBhc3N3b3JkQXBwbGljYXRpb25SZXNwb25zZRJBCh1yZXNldF9wYXNzd29yZF'
+    '9hcHBsaWNhdGlvbl9pZBgBIAEoCVIacmVzZXRQYXNzd29yZEFwcGxpY2F0aW9uSWQ=');
 
 @$core.Deprecated('Use vacuumRequestDescriptor instead')
 const VacuumRequest$json = {
@@ -131,8 +138,8 @@ const VacuumRequest$json = {
 };
 
 /// Descriptor for `VacuumRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List vacuumRequestDescriptor =
-    $convert.base64Decode('Cg1WYWN1dW1SZXF1ZXN0');
+final $typed_data.Uint8List vacuumRequestDescriptor = $convert.base64Decode(
+    'Cg1WYWN1dW1SZXF1ZXN0');
 
 @$core.Deprecated('Use vacuumResponseDescriptor instead')
 const VacuumResponse$json = {
@@ -140,8 +147,8 @@ const VacuumResponse$json = {
 };
 
 /// Descriptor for `VacuumResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List vacuumResponseDescriptor =
-    $convert.base64Decode('Cg5WYWN1dW1SZXNwb25zZQ==');
+final $typed_data.Uint8List vacuumResponseDescriptor = $convert.base64Decode(
+    'Cg5WYWN1dW1SZXNwb25zZQ==');
 
 @$core.Deprecated('Use putEmailRequestDescriptor instead')
 const PutEmailRequest$json = {
@@ -163,8 +170,8 @@ const PutEmailResponse$json = {
 };
 
 /// Descriptor for `PutEmailResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List putEmailResponseDescriptor =
-    $convert.base64Decode('ChBQdXRFbWFpbFJlc3BvbnNl');
+final $typed_data.Uint8List putEmailResponseDescriptor = $convert.base64Decode(
+    'ChBQdXRFbWFpbFJlc3BvbnNl');
 
 @$core.Deprecated('Use getEmailRequestDescriptor instead')
 const GetEmailRequest$json = {
@@ -175,8 +182,8 @@ const GetEmailRequest$json = {
 };
 
 /// Descriptor for `GetEmailRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getEmailRequestDescriptor = $convert
-    .base64Decode('Cg9HZXRFbWFpbFJlcXVlc3QSFwoHdXNlcl9ubxgBIAEoCVIGdXNlck5v');
+final $typed_data.Uint8List getEmailRequestDescriptor = $convert.base64Decode(
+    'Cg9HZXRFbWFpbFJlcXVlc3QSFwoHdXNlcl9ubxgBIAEoCVIGdXNlck5v');
 
 @$core.Deprecated('Use getEmailResponseDescriptor instead')
 const GetEmailResponse$json = {
@@ -187,8 +194,8 @@ const GetEmailResponse$json = {
 };
 
 /// Descriptor for `GetEmailResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getEmailResponseDescriptor = $convert
-    .base64Decode('ChBHZXRFbWFpbFJlc3BvbnNlEhQKBWVtYWlsGAEgASgJUgVlbWFpbA==');
+final $typed_data.Uint8List getEmailResponseDescriptor = $convert.base64Decode(
+    'ChBHZXRFbWFpbFJlc3BvbnNlEhQKBWVtYWlsGAEgASgJUgVlbWFpbA==');
 
 @$core.Deprecated('Use deleteEmailRequestDescriptor instead')
 const DeleteEmailRequest$json = {
@@ -199,9 +206,8 @@ const DeleteEmailRequest$json = {
 };
 
 /// Descriptor for `DeleteEmailRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deleteEmailRequestDescriptor =
-    $convert.base64Decode(
-        'ChJEZWxldGVFbWFpbFJlcXVlc3QSFwoHdXNlcl9ubxgBIAEoCVIGdXNlck5v');
+final $typed_data.Uint8List deleteEmailRequestDescriptor = $convert.base64Decode(
+    'ChJEZWxldGVFbWFpbFJlcXVlc3QSFwoHdXNlcl9ubxgBIAEoCVIGdXNlck5v');
 
 @$core.Deprecated('Use deleteEmailResponseDescriptor instead')
 const DeleteEmailResponse$json = {
@@ -209,5 +215,6 @@ const DeleteEmailResponse$json = {
 };
 
 /// Descriptor for `DeleteEmailResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deleteEmailResponseDescriptor =
-    $convert.base64Decode('ChNEZWxldGVFbWFpbFJlc3BvbnNl');
+final $typed_data.Uint8List deleteEmailResponseDescriptor = $convert.base64Decode(
+    'ChNEZWxldGVFbWFpbFJlc3BvbnNl');
+

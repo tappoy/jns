@@ -21,30 +21,34 @@ export 'file.pb.dart';
 
 @$pb.GrpcServiceName('file.v1.FileService')
 class FileServiceClient extends $grpc.Client {
-  static final _$getFile =
-      $grpc.ClientMethod<$0.GetFileRequest, $0.GetFileResponse>(
-          '/file.v1.FileService/GetFile',
-          ($0.GetFileRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $0.GetFileResponse.fromBuffer(value));
-  static final _$getDir =
-      $grpc.ClientMethod<$0.GetDirRequest, $0.GetDirResponse>(
-          '/file.v1.FileService/GetDir',
-          ($0.GetDirRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $0.GetDirResponse.fromBuffer(value));
+  static final _$version = $grpc.ClientMethod<$0.VersionRequest, $0.VersionResponse>(
+      '/file.v1.FileService/Version',
+      ($0.VersionRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.VersionResponse.fromBuffer(value));
+  static final _$getFile = $grpc.ClientMethod<$0.GetFileRequest, $0.GetFileResponse>(
+      '/file.v1.FileService/GetFile',
+      ($0.GetFileRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetFileResponse.fromBuffer(value));
+  static final _$getDir = $grpc.ClientMethod<$0.GetDirRequest, $0.GetDirResponse>(
+      '/file.v1.FileService/GetDir',
+      ($0.GetDirRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetDirResponse.fromBuffer(value));
 
   FileServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options, interceptors: interceptors);
+      : super(channel, options: options,
+        interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.GetFileResponse> getFile($0.GetFileRequest request,
-      {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.VersionResponse> version($0.VersionRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$version, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetFileResponse> getFile($0.GetFileRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getFile, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetDirResponse> getDir($0.GetDirRequest request,
-      {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.GetDirResponse> getDir($0.GetDirRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getDir, request, options: options);
   }
 }
@@ -54,6 +58,13 @@ abstract class FileServiceBase extends $grpc.Service {
   $core.String get $name => 'file.v1.FileService';
 
   FileServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.VersionRequest, $0.VersionResponse>(
+        'Version',
+        version_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.VersionRequest.fromBuffer(value),
+        ($0.VersionResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetFileRequest, $0.GetFileResponse>(
         'GetFile',
         getFile_Pre,
@@ -70,18 +81,19 @@ abstract class FileServiceBase extends $grpc.Service {
         ($0.GetDirResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.GetFileResponse> getFile_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.GetFileRequest> request) async {
+  $async.Future<$0.VersionResponse> version_Pre($grpc.ServiceCall call, $async.Future<$0.VersionRequest> request) async {
+    return version(call, await request);
+  }
+
+  $async.Future<$0.GetFileResponse> getFile_Pre($grpc.ServiceCall call, $async.Future<$0.GetFileRequest> request) async {
     return getFile(call, await request);
   }
 
-  $async.Future<$0.GetDirResponse> getDir_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.GetDirRequest> request) async {
+  $async.Future<$0.GetDirResponse> getDir_Pre($grpc.ServiceCall call, $async.Future<$0.GetDirRequest> request) async {
     return getDir(call, await request);
   }
 
-  $async.Future<$0.GetFileResponse> getFile(
-      $grpc.ServiceCall call, $0.GetFileRequest request);
-  $async.Future<$0.GetDirResponse> getDir(
-      $grpc.ServiceCall call, $0.GetDirRequest request);
+  $async.Future<$0.VersionResponse> version($grpc.ServiceCall call, $0.VersionRequest request);
+  $async.Future<$0.GetFileResponse> getFile($grpc.ServiceCall call, $0.GetFileRequest request);
+  $async.Future<$0.GetDirResponse> getDir($grpc.ServiceCall call, $0.GetDirRequest request);
 }

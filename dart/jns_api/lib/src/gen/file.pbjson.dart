@@ -13,6 +13,27 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use versionRequestDescriptor instead')
+const VersionRequest$json = {
+  '1': 'VersionRequest',
+};
+
+/// Descriptor for `VersionRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List versionRequestDescriptor = $convert.base64Decode(
+    'Cg5WZXJzaW9uUmVxdWVzdA==');
+
+@$core.Deprecated('Use versionResponseDescriptor instead')
+const VersionResponse$json = {
+  '1': 'VersionResponse',
+  '2': [
+    {'1': 'version', '3': 1, '4': 1, '5': 9, '10': 'version'},
+  ],
+};
+
+/// Descriptor for `VersionResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List versionResponseDescriptor = $convert.base64Decode(
+    'Cg9WZXJzaW9uUmVzcG9uc2USGAoHdmVyc2lvbhgBIAEoCVIHdmVyc2lvbg==');
+
 @$core.Deprecated('Use getFileRequestDescriptor instead')
 const GetFileRequest$json = {
   '1': 'GetFileRequest',
@@ -22,8 +43,8 @@ const GetFileRequest$json = {
 };
 
 /// Descriptor for `GetFileRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getFileRequestDescriptor =
-    $convert.base64Decode('Cg5HZXRGaWxlUmVxdWVzdBISCgRwYXRoGAEgASgJUgRwYXRo');
+final $typed_data.Uint8List getFileRequestDescriptor = $convert.base64Decode(
+    'Cg5HZXRGaWxlUmVxdWVzdBISCgRwYXRoGAEgASgJUgRwYXRo');
 
 @$core.Deprecated('Use getFileResponseDescriptor instead')
 const GetFileResponse$json = {
@@ -34,8 +55,8 @@ const GetFileResponse$json = {
 };
 
 /// Descriptor for `GetFileResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getFileResponseDescriptor = $convert
-    .base64Decode('Cg9HZXRGaWxlUmVzcG9uc2USEgoEZmlsZRgBIAEoDFIEZmlsZQ==');
+final $typed_data.Uint8List getFileResponseDescriptor = $convert.base64Decode(
+    'Cg9HZXRGaWxlUmVzcG9uc2USEgoEZmlsZRgBIAEoDFIEZmlsZQ==');
 
 @$core.Deprecated('Use getDirRequestDescriptor instead')
 const GetDirRequest$json = {
@@ -46,8 +67,8 @@ const GetDirRequest$json = {
 };
 
 /// Descriptor for `GetDirRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getDirRequestDescriptor = $convert
-    .base64Decode('Cg1HZXREaXJSZXF1ZXN0EhkKCGRpcl9wYXRoGAEgASgJUgdkaXJQYXRo');
+final $typed_data.Uint8List getDirRequestDescriptor = $convert.base64Decode(
+    'Cg1HZXREaXJSZXF1ZXN0EhkKCGRpcl9wYXRoGAEgASgJUgdkaXJQYXRo');
 
 @$core.Deprecated('Use getDirResponseDescriptor instead')
 const GetDirResponse$json = {
@@ -58,5 +79,6 @@ const GetDirResponse$json = {
 };
 
 /// Descriptor for `GetDirResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getDirResponseDescriptor =
-    $convert.base64Decode('Cg5HZXREaXJSZXNwb25zZRIQCgN0YXIYASABKAxSA3Rhcg==');
+final $typed_data.Uint8List getDirResponseDescriptor = $convert.base64Decode(
+    'Cg5HZXREaXJSZXNwb25zZRIQCgN0YXIYASABKAxSA3Rhcg==');
+
