@@ -6,11 +6,24 @@ import (
 	"log"
 
 	"connectrpc.com/connect"
+	"github.com/tappoy/version"
 
 	filev1 "github.com/tappoy/jns/go/_buf/file/v1"
 )
 
 type FileServer struct{}
+
+func (s *FileServer) Version(
+	ctx context.Context,
+	req *connect.Request[filev1.VersionRequest],
+) (*connect.Response[filev1.VersionResponse], error) {
+	log.Println("Request headers: ", req.Header())
+	res := connect.NewResponse(&filev1.VersionResponse{
+		Version: version.Version(),
+	})
+	res.Header().Set("JNSFileServer-Version", "v1")
+	return res, nil
+}
 
 func (s *FileServer) GetFile(
 	ctx context.Context,
