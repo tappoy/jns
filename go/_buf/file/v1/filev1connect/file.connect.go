@@ -33,6 +33,8 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
+	// FileServiceVersionProcedure is the fully-qualified name of the FileService's Version RPC.
+	FileServiceVersionProcedure = "/file.v1.FileService/Version"
 	// FileServiceGetFileProcedure is the fully-qualified name of the FileService's GetFile RPC.
 	FileServiceGetFileProcedure = "/file.v1.FileService/GetFile"
 	// FileServiceGetDirProcedure is the fully-qualified name of the FileService's GetDir RPC.
@@ -42,6 +44,7 @@ const (
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	fileServiceServiceDescriptor       = v1.File_file_v1_file_proto.Services().ByName("FileService")
+	fileServiceVersionMethodDescriptor = fileServiceServiceDescriptor.Methods().ByName("Version")
 	fileServiceGetFileMethodDescriptor = fileServiceServiceDescriptor.Methods().ByName("GetFile")
 	fileServiceGetDirMethodDescriptor  = fileServiceServiceDescriptor.Methods().ByName("GetDir")
 )
@@ -49,6 +52,7 @@ var (
 // FileServiceClient is a client for the file.v1.FileService service.
 type FileServiceClient interface {
 	// public
+	Version(context.Context, *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error)
 	GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error)
 	GetDir(context.Context, *connect.Request[v1.GetDirRequest]) (*connect.Response[v1.GetDirResponse], error)
 }
@@ -63,6 +67,12 @@ type FileServiceClient interface {
 func NewFileServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) FileServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &fileServiceClient{
+		version: connect.NewClient[v1.VersionRequest, v1.VersionResponse](
+			httpClient,
+			baseURL+FileServiceVersionProcedure,
+			connect.WithSchema(fileServiceVersionMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		getFile: connect.NewClient[v1.GetFileRequest, v1.GetFileResponse](
 			httpClient,
 			baseURL+FileServiceGetFileProcedure,
@@ -80,8 +90,14 @@ func NewFileServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // fileServiceClient implements FileServiceClient.
 type fileServiceClient struct {
+	version *connect.Client[v1.VersionRequest, v1.VersionResponse]
 	getFile *connect.Client[v1.GetFileRequest, v1.GetFileResponse]
 	getDir  *connect.Client[v1.GetDirRequest, v1.GetDirResponse]
+}
+
+// Version calls file.v1.FileService.Version.
+func (c *fileServiceClient) Version(ctx context.Context, req *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error) {
+	return c.version.CallUnary(ctx, req)
 }
 
 // GetFile calls file.v1.FileService.GetFile.
@@ -97,6 +113,7 @@ func (c *fileServiceClient) GetDir(ctx context.Context, req *connect.Request[v1.
 // FileServiceHandler is an implementation of the file.v1.FileService service.
 type FileServiceHandler interface {
 	// public
+	Version(context.Context, *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error)
 	GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error)
 	GetDir(context.Context, *connect.Request[v1.GetDirRequest]) (*connect.Response[v1.GetDirResponse], error)
 }
@@ -107,6 +124,12 @@ type FileServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewFileServiceHandler(svc FileServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	fileServiceVersionHandler := connect.NewUnaryHandler(
+		FileServiceVersionProcedure,
+		svc.Version,
+		connect.WithSchema(fileServiceVersionMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	fileServiceGetFileHandler := connect.NewUnaryHandler(
 		FileServiceGetFileProcedure,
 		svc.GetFile,
@@ -121,6 +144,8 @@ func NewFileServiceHandler(svc FileServiceHandler, opts ...connect.HandlerOption
 	)
 	return "/file.v1.FileService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case FileServiceVersionProcedure:
+			fileServiceVersionHandler.ServeHTTP(w, r)
 		case FileServiceGetFileProcedure:
 			fileServiceGetFileHandler.ServeHTTP(w, r)
 		case FileServiceGetDirProcedure:
@@ -133,6 +158,10 @@ func NewFileServiceHandler(svc FileServiceHandler, opts ...connect.HandlerOption
 
 // UnimplementedFileServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedFileServiceHandler struct{}
+
+func (UnimplementedFileServiceHandler) Version(context.Context, *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.Version is not implemented"))
+}
 
 func (UnimplementedFileServiceHandler) GetFile(context.Context, *connect.Request[v1.GetFileRequest]) (*connect.Response[v1.GetFileResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("file.v1.FileService.GetFile is not implemented"))

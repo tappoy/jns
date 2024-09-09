@@ -6,8 +6,16 @@ option go_package = "github.com/tappoy/jns/go/_buf/file/v1;filev1";
 
 service FileService {
 	// public
+	rpc Version(VersionRequest) returns (VersionResponse) {}
 	rpc GetFile(GetFileRequest) returns (GetFileResponse) {}
 	rpc GetDir(GetDirRequest) returns (GetDirResponse) {}
+}
+
+// Version
+message VersionRequest {
+}
+message VersionResponse {
+	string version = 1;
 }
 
 // GetFile

@@ -33,6 +33,8 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
+	// UserServiceVersionProcedure is the fully-qualified name of the UserService's Version RPC.
+	UserServiceVersionProcedure = "/user.v1.UserService/Version"
 	// UserServicePostUserProcedure is the fully-qualified name of the UserService's PostUser RPC.
 	UserServicePostUserProcedure = "/user.v1.UserService/PostUser"
 	// UserServicePutPasswordProcedure is the fully-qualified name of the UserService's PutPassword RPC.
@@ -55,6 +57,7 @@ const (
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	userServiceServiceDescriptor                           = v1.File_user_v1_user_proto.Services().ByName("UserService")
+	userServiceVersionMethodDescriptor                     = userServiceServiceDescriptor.Methods().ByName("Version")
 	userServicePostUserMethodDescriptor                    = userServiceServiceDescriptor.Methods().ByName("PostUser")
 	userServicePutPasswordMethodDescriptor                 = userServiceServiceDescriptor.Methods().ByName("PutPassword")
 	userServiceAuthMethodDescriptor                        = userServiceServiceDescriptor.Methods().ByName("Auth")
@@ -68,6 +71,7 @@ var (
 // UserServiceClient is a client for the user.v1.UserService service.
 type UserServiceClient interface {
 	// public
+	Version(context.Context, *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error)
 	PostUser(context.Context, *connect.Request[v1.PostUserRequest]) (*connect.Response[v1.PostUserResponse], error)
 	PutPassword(context.Context, *connect.Request[v1.PutPasswordRequest]) (*connect.Response[v1.PutPasswordResponse], error)
 	// private
@@ -89,6 +93,12 @@ type UserServiceClient interface {
 func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) UserServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &userServiceClient{
+		version: connect.NewClient[v1.VersionRequest, v1.VersionResponse](
+			httpClient,
+			baseURL+UserServiceVersionProcedure,
+			connect.WithSchema(userServiceVersionMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		postUser: connect.NewClient[v1.PostUserRequest, v1.PostUserResponse](
 			httpClient,
 			baseURL+UserServicePostUserProcedure,
@@ -142,6 +152,7 @@ func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
+	version                     *connect.Client[v1.VersionRequest, v1.VersionResponse]
 	postUser                    *connect.Client[v1.PostUserRequest, v1.PostUserResponse]
 	putPassword                 *connect.Client[v1.PutPasswordRequest, v1.PutPasswordResponse]
 	auth                        *connect.Client[v1.AuthRequest, v1.AuthResponse]
@@ -150,6 +161,11 @@ type userServiceClient struct {
 	putEmail                    *connect.Client[v1.PutEmailRequest, v1.PutEmailResponse]
 	getEmail                    *connect.Client[v1.GetEmailRequest, v1.GetEmailResponse]
 	deleteEmail                 *connect.Client[v1.DeleteEmailRequest, v1.DeleteEmailResponse]
+}
+
+// Version calls user.v1.UserService.Version.
+func (c *userServiceClient) Version(ctx context.Context, req *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error) {
+	return c.version.CallUnary(ctx, req)
 }
 
 // PostUser calls user.v1.UserService.PostUser.
@@ -195,6 +211,7 @@ func (c *userServiceClient) DeleteEmail(ctx context.Context, req *connect.Reques
 // UserServiceHandler is an implementation of the user.v1.UserService service.
 type UserServiceHandler interface {
 	// public
+	Version(context.Context, *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error)
 	PostUser(context.Context, *connect.Request[v1.PostUserRequest]) (*connect.Response[v1.PostUserResponse], error)
 	PutPassword(context.Context, *connect.Request[v1.PutPasswordRequest]) (*connect.Response[v1.PutPasswordResponse], error)
 	// private
@@ -212,6 +229,12 @@ type UserServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	userServiceVersionHandler := connect.NewUnaryHandler(
+		UserServiceVersionProcedure,
+		svc.Version,
+		connect.WithSchema(userServiceVersionMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	userServicePostUserHandler := connect.NewUnaryHandler(
 		UserServicePostUserProcedure,
 		svc.PostUser,
@@ -262,6 +285,8 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 	)
 	return "/user.v1.UserService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case UserServiceVersionProcedure:
+			userServiceVersionHandler.ServeHTTP(w, r)
 		case UserServicePostUserProcedure:
 			userServicePostUserHandler.ServeHTTP(w, r)
 		case UserServicePutPasswordProcedure:
@@ -286,6 +311,10 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 
 // UnimplementedUserServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedUserServiceHandler struct{}
+
+func (UnimplementedUserServiceHandler) Version(context.Context, *connect.Request[v1.VersionRequest]) (*connect.Response[v1.VersionResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.v1.UserService.Version is not implemented"))
+}
 
 func (UnimplementedUserServiceHandler) PostUser(context.Context, *connect.Request[v1.PostUserRequest]) (*connect.Response[v1.PostUserResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.v1.UserService.PostUser is not implemented"))
